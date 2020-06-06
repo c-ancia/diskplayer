@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Diskplayer Recorder</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/denali-css/css/denali.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/denali-icon-font/dist/denali-icon-font.css" />
+    </head>
+    <body>
+        <div class="container m-t-10">
+            <div class="box p-20">
+                <h1>Diskplayer Recorder</h1>
+                <hr />
+                <section>
+                    {% if error == "False" %}
+                        <div class="alert is-block is-success">
+                            <span class="d-icon d-check-circle-solid"></span>
+                            <div>
+                                <h5>Success!</h5>
+                                <p>The URL has been correctly saved on the disk.</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert is-block is-danger">
+                            <span class="d-icon d-stop-warning-solid"></span>
+                            <div>
+                                
+                                <h5>An error occurred</h5>
+                                <p>{{ message }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </section>
+            </div>
+        </div>
+    </body>
+</html>

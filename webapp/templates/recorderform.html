@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Diskplayer Recorder</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/denali-css/css/denali.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/denali-icon-font/dist/denali-icon-font.css" />
+    </head>
+    <body>
+        <div class="container m-t-10">
+            <div class="box p-20">
+                <h1>Diskplayer Recorder</h1>
+                <hr />
+                <section>
+                    {% if lsblk|length > 1 and lsblk == "sda" %}
+                        {% if noContent %}
+                            <div class="alert is-block is-success">
+                                <span class="d-icon d-check-circle-solid"></span>
+                                <div>
+                                    <h5>Floppy detected</h5>
+                                    <p>The floppy has no content. You can record it.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <section class="m-t-20">
+                            <h3>Recorder parameters</h3>
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <ul>
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endwith %}
+                            <form action="" method="post" class="m-t-20" id="recorderform">
+                                {{ recorderform.hidden_tag() }}
+                                <div class="input">  
+                                    {{ recorderform.uri(size=32, class_='has-bg-grey-100', placeholder=recorderform.uri.label.text) }}
+                                    {% for error in recorderform.uri.errors %}
+                                    <div class="alert is-block is-danger m-t-5 p-l-20">
+                                        <div>
+                                            <p>[{{ error }}]</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <br />
+                                <button type="submit" class="button is-solid" >
+                                    {{ recorderform.save.label.text }}
+                                </button>
+                            </form>
+                        </section>
+                    {% else %}
+                        <div class="alert is-block is-danger">
+                            <span class="d-icon d-stop-warning-solid"></span>
+                            <div>
+                                <h5>No Floppy detected</h5>
+                            </div>
+                        </div>
+                    {% endif %}
+                </section>
+            </div>
+        </div>
+    </body>
+</html>

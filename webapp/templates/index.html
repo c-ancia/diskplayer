@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Diskplayer Recorder</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/denali-css/css/denali.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/denali-icon-font/dist/denali-icon-font.css" />
+        <style>
+            .flex-8 {
+                flex: 8 !important;
+            }
+        </style>
+        <script>
+            function checkOverride (value) {
+                document.getElementById("override").value = value;
+                document.getElementById("overrideform").submit();
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container m-t-10">
+            <div class="box p-20">
+                <h1>Diskplayer Recorder</h1>
+                <hr />
+                <section>
+                    {% if lsblk|length > 1 and lsblk == "sda" %}
+                        {% if hasContent %}
+                            {% if override == None %}
+                                <div class="alert is-block is-warning">
+                                    <span class="d-icon d-warning-solid"></span>
+                                    <div>
+                                        <h5>Floppy detected</h5>
+                                        <p>The floppy has already content. Do you wish to override it?</p>
+                                        <br />
+                                        <form action="" method="post" id="overrideform">
+                                            {{ overrideform.hidden_tag() }}
+                                            {{ overrideform.override() }}
+                                            <button class="button is-solid has-bg-green-500" onclick="checkOverride(1)">
+                                                <i class="d-icon d-check is-small is-grey-100"></i>
+                                                Yes
+                                            </button>
+                                            <button class="button is-solid has-bg-red-500" onclick="checkOverride(0)">
+                                                <i class="d-icon d-close is-small is-grey-100"></i>
+                                                No
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if currentContent %}
+                                <div class="alert is-block is-info m-t-20">
+                                    <span class="d-icon d-information-circle-solid"></span>
+                                    <div>
+                                        <h5>Currently on the floppy</h5>
+                                        <div class="flex flex-row space-around m-y-0">
+                                            <div class="col flex-1">
+                                                <a href="{{currentContent.item.album.external_urls.spotify}}" target="_blank">
+                                                    <img src="{{currentContent.item.album.images[1].url}}"  width="100" />
+                                                </a>
+                                            </div>
+                                            <div class="col flex-8">
+                                                <p>
+                                                    <b>Artist:</b>
+                                                    {% for artist in currentContent.item.artists %}
+                                                        {% if loop.index0 > 0 %}
+                                                        -
+                                                        {% endif %}
+                                                        <a href="{{artist.external_urls.spotify}}" target="_blank">{{ artist.name }}</a>
+                                                    {% endfor %}
+                                                </p>
+                                                <p>
+                                                    <b>Album:</b>
+                                                    <a href="{{currentContent.item.album.external_urls.spotify}}" target="_blank">{{currentContent.item.album.name}}</a>
+                                                </p>
+                                                <p>
+                                                    {% if currentContent.context.type == "playlist" %}
+                                                        <b>From:</b> 
+                                                        <a href="{{currentContent.context.external_urls.spotify}}" target="_blank">Playlist</a>
+                                                    {% else %}
+                                                        <b>Track Number:</b> 
+                                                        {{currentContent.item.track_number}}
+                                                    {% endif %}
+                                                </p>
+                                                <p>
+                                                    <b>Currently playing: </b>
+                                                    {% if currentContent.is_playing %}
+                                                        <a href="{{currentContent.item.external_urls.spotify}}" target="_blank">{{currentContent.item.name}}</a>
+                                                    {% else %}
+                                                        Paused
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="alert is-block is-info m-t-20">
+                                    <span class="d-icon d-information-circle-solid"></span>
+                                    <div>
+                                        <h5>Not playing</h5>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <div class="alert is-block is-danger">
+                            <span class="d-icon d-stop-warning-solid"></span>
+                            <div>
+                                <h5>No Floppy detected</h5>
+                            </div>
+                        </div>
+                    {% endif %}
+                </section>
+            </div>
+        </div>
+    </body>
+</html>

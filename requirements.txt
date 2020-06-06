@@ -1,0 +1,4 @@
+pyudev
+spotipy
+flask
+flask_wtf
