@@ -10,7 +10,7 @@
 # Description:       Copies specific file from tmp folder to the mounted floppy once created
 ### END INIT INFO
 
-inotifywait -m /PATH_TO_PROJECT/diskplayer/tmp -e create @__init__.py |
+inotifywait -m PATH_TO_PROJECT/diskplayer/tmp -e create @__init__.py |
     while read path action file; do
         if [ "$file" = "diskplayer.contents" ]; then
             sudo chown root:root "${path}/${file}"

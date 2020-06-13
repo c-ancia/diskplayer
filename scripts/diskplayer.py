@@ -13,5 +13,5 @@
 
 import subprocess
 
-subprocess.run(["python3", "/PATH_TO_PROJECT/diskplayer/media_change.py"])
+subprocess.run(["python3", "PATH_TO_PROJECT/diskplayer/media_change.py"])
 

@@ -37,7 +37,7 @@ class Recorder:
     
     def play(self):
         if self.content == "" and self.uri == "":
-            return  self.logger.writeLog(f"no content nor uri to play.")
+            return self.logger.writeLog(f"no content nor uri to play.")
         elif self.content != "":
             if re.match(URI_REGEXP, self.content) != None:
                 return self.logger.writeLog(f"play {self.path} with content {self.content}", LoggerType.INFO)

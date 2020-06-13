@@ -1,7 +1,7 @@
 # Diskplayer 
 
 This project uses Floppy disks to play albums and playlists on Spotify using a Raspberry Pi 4. This python-based code contains everything necessary to record and play a Floppy disk.
-This is highly inspired by the [Diskplayer project from Dino Fizzotti](https://github.com/dinofizz/diskplayer). I loved the original idea but I wanted to be sure I could customize it as I wanted (add some features/commands, add the possibility to use another streaming system...) and didn't really know the GO language so I took this opportunity to practice some Python (of which I wasn't fully familiar with yet).
+This is highly inspired by the [Diskplayer project from Dino Fizzotti](https://github.com/dinofizz/diskplayer). I loved the original idea but I wanted to be sure I could customize it as I wanted (add some features/commands, add the possibility to use another streaming system...) and didn't really know the GO language so I took this opportunity to practice some Python.
 
 ## How does it work?
 
@@ -73,6 +73,10 @@ Run `hostname -I` in a terminal.
 
 ## Installation
 
+There is a script helping to install and setup the project. It checks that all the requirements are met, prompts the user for the required values (for the configuration file) and creates and places the different files to the proper paths. If you want more information, read the instructions below.
+
+Since some of the paths and commands ran *require root privileges*, you'll need to run the script using the root user (or `sudo bash install.sh`). If you'd rather do the configuration manually, feel free to follow the instructions below and ignore the `install.sh` script.
+
 ### 1. Get the source code
 
 Clone this repository anywhere you want in your Raspberry Pi. Just remember where you placed it, as you'll need to write the path in several files.
@@ -116,7 +120,7 @@ import logging
 import sys
 
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0, '/PATH_TO_PROJECT/diskplayer/')
+sys.path.insert(0, 'PATH_TO_PROJECT/diskplayer/')
 from app import app as application
 application.secret_key = 'YOUR_SECRET_KEY'
 
@@ -138,8 +142,8 @@ Here's the content of the virtual host `scripts/diskplayer.conf`:
 <VirtualHost *:80>
      ServerName IP_OF_RASPBERRY_PI
      # Give an alias to start your website url with
-     WSGIScriptAlias /diskplayer /PATH_TO_PROJECT/diskplayer/webapp/app.wsgi
-     <Directory /PATH_TO_PROJECT/diskplayer/>
+     WSGIScriptAlias /diskplayer PATH_TO_PROJECT/diskplayer/webapp/app.wsgi
+     <Directory PATH_TO_PROJECT/diskplayer/>
           WSGIScriptReloading On
           Options FollowSymLinks
           AllowOverride None
@@ -173,7 +177,7 @@ Here's the content of the script `scripts/copyfiles.sh`:
 # Description:       Copies specific file from tmp folder to the mounted floppy once created
 ### END INIT INFO
 
-inotifywait -m /PATH_TO_PROJECT/diskplayer/tmp -e create @__init__.py |
+inotifywait -m PATH_TO_PROJECT/diskplayer/tmp -e create @__init__.py |
     while read path action file; do
         if [ "$file" = "diskplayer.contents" ]; then
             sudo chown root:root "${path}/${file}"
