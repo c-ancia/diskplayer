@@ -206,7 +206,7 @@ The player is available through the command line. Here are the different command
 ```console
 foo@bar:~$ python main.py --uri [SPOTIFY_URI]
 ```
-- Reads the file at the location given as parameter then plays its content (provided it contains a valid URI)
+- Reads the file at the location given as parameter then plays its content (provided it contains a valid URI). If the same floppy is inserted (or contains the same content as previous playback) the playback will resume where it paused rather than starting back from the start.
 ```console
 foo@bar:~$ python main.py --path [FILE_PATH]
 ```
@@ -214,9 +214,17 @@ foo@bar:~$ python main.py --path [FILE_PATH]
 ```console
 foo@bar:~$ python main.py --current
 ```
-- Pause the ucrrent playback
+- Pause the current playback
 ```console
 foo@bar:~$ python main.py --pause
+```
+- Plays previous song (or the current song from the start)
+```console
+foo@bar:~$ python main.py --prev
+```
+- Plays the next song
+```console
+foo@bar:~$ python main.py --next
 ```
 
 ## Troubleshooting

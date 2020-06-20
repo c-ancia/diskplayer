@@ -63,14 +63,17 @@ class Player:
         except spotipy.oauth2.SpotifyOauthError as e:
             return self.logger.writeLog(e)
             
-    def play(self, uri):
+    def play(self, uri = None):
         try:
             if self.sp == None:
                 self.auth()  
             if self.device_id == None:
                 self.find()
             if self.device_id:        
-                self.sp.start_playback(context_uri=uri, device_id=self.device_id)
+                if uri != None:
+                    self.sp.start_playback(context_uri=uri, device_id=self.device_id)
+                else:
+                    self.sp.start_playback(device_id=self.device_id)
             else:
                 return self.logger.writeLog(f"device not found.")
         except spotipy.oauth2.SpotifyOauthError as e:
@@ -89,6 +92,32 @@ class Player:
                 return self.logger.writeLog(f"device not found.")
         except spotipy.oauth2.SpotifyOauthError as e:
             return self.logger.writeLog(e)
+        
+    def prev(self):
+        try:
+            if self.sp == None:
+                self.auth()
+            if self.device_id == None:
+                self.find()
+            if self.device_id:
+                self.sp.previous_track(device_id=self.device_id)
+            else:
+                return self.logger.writeLog(f"device not found.")
+        except spotipy.oauth2.SpotifyOauthError as e:
+            return self.logger.writeLog(e)
+        
+    def next(self):
+        try:
+            if self.sp == None:
+                self.auth()
+            if self.device_id == None:
+                self.find()
+            if self.device_id:
+                self.sp.next_track(device_id=self.device_id)
+            else:
+                return self.logger.writeLog(f"device not found.")
+        except spotipy.oauth2.SpotifyOauthError as e:
+            return self.logger.writeLog(e)    
         
     def getCurrentPlayback(self):
         try:
