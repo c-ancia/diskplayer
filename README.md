@@ -238,4 +238,4 @@ Check the Apache `error.log` & `access.log` files for all the logs related to th
 
 ## Testing
 
-If you wish to use the 2 unit tests for the player and recorder classes, run (from the `diskplayer` directory) `python src/player_test.py` or `python src/recorder_test.py` in a command line. 
+If you wish to use the 2 unit tests for the player and recorder classes, run (from the `diskplayer` directory) `pytest src/player_test.py` or `pytest src/recorder_test.py` in a command line. 
