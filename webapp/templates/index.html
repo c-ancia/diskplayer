@@ -85,7 +85,7 @@
                                                 <p>
                                                     <b>Currently playing: </b>
                                                     {% if current_content.is_playing %}
-                                                        <a href="{{c urrent_content.item.external_urls.spotify }}" target="_blank">{{ current_content.item.name }}</a>
+                                                        <a href="{{ current_content.item.external_urls.spotify }}" target="_blank">{{ current_content.item.name }}</a>
                                                     {% else %}
                                                         Paused
                                                     {% endif %}

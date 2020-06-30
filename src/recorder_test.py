@@ -16,7 +16,7 @@ class TestRecorder(unittest.TestCase):
         result = rec.read()
         self.assertEqual(result["message"], "the content test some content 123 is not a proper URI.")
 
-    def test_checkContent(self):
+    def test_check_content(self):
         rec = Recorder()
         result = rec.check_content()
         self.assertEqual(result["message"], "no content nor uri to play.")
