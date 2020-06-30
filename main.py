@@ -1,5 +1,5 @@
 
-import sys, os, logging
+import sys, os
 from optparse import OptionParser
 from src.recorder import Recorder
 from src.player import Player
@@ -16,50 +16,46 @@ def main(argv):
     parser.add_option("", "--prev", dest="prev", action="store_true", help="Skip to previous song.")
     parser.add_option("", "--next", dest="next", action="store_true", help="Skip to next song.")
     (options, args) = parser.parse_args()
-    
+
     nb_options = 0
-    stringValues = ["uri", "path"]
+    string_values = ["uri", "path"]
     for opt, value in options.__dict__.items():
-        if (opt in stringValues and value != "") or (opt not in stringValues and value != None):
+        if (opt in string_values and value != "") or (opt not in string_values and value != None):
             nb_options += 1
-    
+
     if (nb_options == 0):
         parser.error("Please specify at least one command.") 
-        
+
     if (nb_options > 1):
         parser.error("Please specify only one command.") 
-        
-    config_file_path = f"{project_dir}{os.path.sep}resources/config.json"
-        
+
+    config_file_path = f"{project_dir}{os.path.sep}resources{os.path.sep}config.json"
+
     if options.path != "":
         rec = Recorder(path=options.path)
         rec.read()
         if rec.content != "":
             pla = Player(config_file_path)
             # Check if we play a new album/playlist or resume
-            playback = pla.getCurrentPlayback()
+            playback = pla.get_current_playback()
             if playback == None or playback["context"]["uri"] != rec.content.strip():
                 pla.play(uri=rec.content)
             else:
                 pla.play()
-    elif options.uri != "":
+    else:
         pla = Player(config_file_path)
-        pla.play(uri=options.uri)
-    elif options.pause != None:
-        pla = Player(config_file_path)
-        pla.pause()
-    elif options.current != None:
-        pla = Player(config_file_path)
-        pla.getCurrentPlayback()
-    elif options.resume != None:
-        pla = Player(config_file_path)
-        pla.play()
-    elif options.prev != None:
-        pla = Player(config_file_path)
-        pla.prev()
-    elif options.next != None:
-        pla = Player(config_file_path)
-        pla.next()
-    
+        if options.uri != "":
+            pla.play(uri=options.uri)
+        elif options.pause != None:
+            pla.pause()
+        elif options.current != None:
+            pla.get_current_playback()
+        elif options.resume != None:
+            pla.play()
+        elif options.prev != None:
+            pla.prev()
+        elif options.next != None:
+            pla.next()
+
 if __name__ == "__main__":
    main(sys.argv[1:])

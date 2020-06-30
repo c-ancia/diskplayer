@@ -25,7 +25,7 @@
                 <hr />
                 <section>
                     {% if lsblk|length > 1 and lsblk == "sda" %}
-                        {% if hasContent %}
+                        {% if has_content %}
                             {% if override == None %}
                                 <div class="alert is-block is-warning">
                                     <span class="d-icon d-warning-solid"></span>
@@ -48,44 +48,44 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            {% if currentContent %}
+                            {% if current_content %}
                                 <div class="alert is-block is-info m-t-20">
                                     <span class="d-icon d-information-circle-solid"></span>
                                     <div>
                                         <h5>Currently on the floppy</h5>
                                         <div class="flex flex-row space-around m-y-0">
                                             <div class="col flex-1">
-                                                <a href="{{currentContent.item.album.external_urls.spotify}}" target="_blank">
-                                                    <img src="{{currentContent.item.album.images[1].url}}"  width="100" />
+                                                <a href="{{ current_content.item.album.external_urls.spotify }}" target="_blank">
+                                                    <img src="{{ current_content.item.album.images[1].url }}"  width="100" />
                                                 </a>
                                             </div>
                                             <div class="col flex-8">
                                                 <p>
                                                     <b>Artist:</b>
-                                                    {% for artist in currentContent.item.artists %}
+                                                    {% for artist in current_content.item.artists %}
                                                         {% if loop.index0 > 0 %}
                                                         -
                                                         {% endif %}
-                                                        <a href="{{artist.external_urls.spotify}}" target="_blank">{{ artist.name }}</a>
+                                                        <a href="{{ artist.external_urls.spotify }}" target="_blank">{{ artist.name }}</a>
                                                     {% endfor %}
                                                 </p>
                                                 <p>
                                                     <b>Album:</b>
-                                                    <a href="{{currentContent.item.album.external_urls.spotify}}" target="_blank">{{currentContent.item.album.name}}</a>
+                                                    <a href="{{ current_content.item.album.external_urls.spotify }}" target="_blank">{{ current_content.item.album.name }}</a>
                                                 </p>
                                                 <p>
-                                                    {% if currentContent.context.type == "playlist" %}
+                                                    {% if current_content.context.type == "playlist" %}
                                                         <b>From:</b> 
-                                                        <a href="{{currentContent.context.external_urls.spotify}}" target="_blank">Playlist</a>
+                                                        <a href="{{ current_content.context.external_urls.spotify }}" target="_blank">Playlist</a>
                                                     {% else %}
                                                         <b>Track Number:</b> 
-                                                        {{currentContent.item.track_number}}
+                                                        {{ current_content.item.track_number }}
                                                     {% endif %}
                                                 </p>
                                                 <p>
                                                     <b>Currently playing: </b>
-                                                    {% if currentContent.is_playing %}
-                                                        <a href="{{currentContent.item.external_urls.spotify}}" target="_blank">{{currentContent.item.name}}</a>
+                                                    {% if current_content.is_playing %}
+                                                        <a href="{{c urrent_content.item.external_urls.spotify }}" target="_blank">{{ current_content.item.name }}</a>
                                                     {% else %}
                                                         Paused
                                                     {% endif %}

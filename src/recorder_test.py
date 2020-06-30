@@ -1,5 +1,5 @@
 import unittest, os
-from recorder import Recorder
+from .recorder import Recorder
 
 class TestRecorder(unittest.TestCase):
     def test_read(self):
@@ -15,39 +15,39 @@ class TestRecorder(unittest.TestCase):
         rec.path = "src/test/recorder/02_somecontent.txt"
         result = rec.read()
         self.assertEqual(result["message"], "the content test some content 123 is not a proper URI.")
-        
-    def test_play(self):
+
+    def test_checkContent(self):
         rec = Recorder()
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "no content nor uri to play.")
         rec.uri="https://open.spotify.com/album/4Fl6pgHomJyIduHVoO4yJE"
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "play uri spotify:album:4Fl6pgHomJyIduHVoO4yJE")
         rec.uri="spotify:album:4Fl6pgHomJyIduHVoO4yJE"
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "play uri spotify:album:4Fl6pgHomJyIduHVoO4yJE")
         rec.uri="https://open.spotify.com/playlist/37i9dQZF1DXdLEN7aqioXM"
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "play uri spotify:playlist:37i9dQZF1DXdLEN7aqioXM")
         rec.uri="spotify:playlist:37i9dQZF1DXdLEN7aqioXM"
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "play uri spotify:playlist:37i9dQZF1DXdLEN7aqioXM")
         rec.uri=""
         rec.path="src/test/recorder/02_somecontent.txt"
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "no content nor uri to play.")
         rec.read()
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "the content test some content 123 is not a proper URI.")
         rec.path = "src/test/recorder/03_album.txt"
         rec.read()
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "play src/test/recorder/03_album.txt with content spotify:album:4Fl6pgHomJyIduHVoO4yJE")
         rec.path = "src/test/recorder/04_playlist.txt"
         rec.read()
-        result = rec.play()
+        result = rec.check_content()
         self.assertEqual(result["message"], "play src/test/recorder/04_playlist.txt with content spotify:playlist:37i9dQZF1DXdLEN7aqioXM")
-        
+
     def test_record(self):
         rec = Recorder(path="src/test/recorder/01_empty.txt")
         result = rec.record()
@@ -83,13 +83,13 @@ class TestRecorder(unittest.TestCase):
         rec.uri = "spotify:playlist:37i9dQZF1DXdLEN7aqioXM"
         result = rec.record()
         self.assertEqual(result["message"], "Content spotify:playlist:37i9dQZF1DXdLEN7aqioXM saved to src/test/recorder/07b_recordURIplaylist.txt")
-      
+
     @classmethod  
-    def tearDownClass(cls):
+    def teardown_class(cls):
         os.remove("src/test/recorder/06a_recordURLalbum.txt") 
         os.remove("src/test/recorder/06b_recordURIalbum.txt") 
         os.remove("src/test/recorder/07a_recordURLplaylist.txt") 
         os.remove("src/test/recorder/07b_recordURIplaylist.txt") 
-        
+
 if __name__ == '__main__':
     unittest.main()

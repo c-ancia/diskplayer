@@ -1,8 +1,8 @@
 import unittest, os, json
-from player import Player
+from .player import Player
 
 class TestPlayer(unittest.TestCase):
-    def test_loadConfig(self):
+    def test_load_config(self):
         with self.assertRaises(FileNotFoundError):
             pla = Player("src/test/player/00_inexistant.txt")
         with self.assertRaises(json.decoder.JSONDecodeError):
@@ -14,6 +14,6 @@ class TestPlayer(unittest.TestCase):
         with open(filepath) as json_file:
             config = json.load(json_file)
         self.assertEqual(pla.config, config) 
-        
+
 if __name__ == '__main__':
     unittest.main()
